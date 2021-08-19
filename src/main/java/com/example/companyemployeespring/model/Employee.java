@@ -24,7 +24,7 @@ public class Employee {
     private String email;
     private int phoneNumber;
     private double salary;
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private Position position;
     @ManyToOne
     private Company company;

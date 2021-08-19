@@ -2,6 +2,7 @@ package com.example.companyemployeespring.controller;
 
 import com.example.companyemployeespring.model.Company;
 import com.example.companyemployeespring.model.Employee;
+import com.example.companyemployeespring.model.Position;
 import com.example.companyemployeespring.repository.CompanyRepository;
 import com.example.companyemployeespring.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -25,7 +27,8 @@ public class EmployeeController {
 
     @GetMapping("/employees")
     public String getEmployees(ModelMap modelMap){
-        modelMap.addAttribute("employees",employeeRepository.findAll());
+        List<Employee> employees = employeeRepository.findAll();
+        modelMap.addAttribute("employees",employees);
         return "employees";
     }
 
@@ -39,6 +42,9 @@ public class EmployeeController {
     @PostMapping("/addEmployee")
     public String addEmployee(@ModelAttribute Employee employee) {
         if (employee != null) {
+            if (employee.getPosition() == null){
+                employee.setPosition(Position.NO_POSITION_YET);
+            }
             employeeRepository.save(employee);
             return "redirect:/employees";
         }

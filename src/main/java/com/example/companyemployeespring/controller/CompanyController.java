@@ -2,6 +2,7 @@ package com.example.companyemployeespring.controller;
 
 import com.example.companyemployeespring.model.Company;
 import com.example.companyemployeespring.model.Employee;
+import com.example.companyemployeespring.model.Position;
 import com.example.companyemployeespring.repository.CompanyRepository;
 import com.example.companyemployeespring.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,7 @@ public class CompanyController {
         List<Employee> allByCompany_id = employeeRepository.findAllByCompany_Id(company.get().getId());
         if (allByCompany_id != null){
             for (Employee employee : allByCompany_id) {
+                employee.setPosition(Position.OPEN_TO_WORK);
                 employee.setCompany(returnDefaultCompany());
             }
         }
@@ -62,12 +64,11 @@ public class CompanyController {
     }
 
     public Company returnDefaultCompany(){
-        Company company = companyRepository.findByName("open_to_work");
-        if (companyRepository.findByName("open_to_work") == null){
-            companyRepository.save(Company.builder().name("open_to_work").size(5).address("anywhere").build());
-            return companyRepository.findByName("open_to_work");
+        if (companyRepository.findByName("no_company") == null){
+            companyRepository.save(Company.builder().name("no_company").size(5).address("no_company").build());
+            return companyRepository.findByName("no_company");
         }
-        return company;
+        return companyRepository.findByName("no_company");
     }
 
 }
