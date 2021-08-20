@@ -3,8 +3,8 @@ package com.example.companyemployeespring.controller;
 import com.example.companyemployeespring.model.Company;
 import com.example.companyemployeespring.model.Employee;
 import com.example.companyemployeespring.model.Position;
-import com.example.companyemployeespring.repository.CompanyRepository;
-import com.example.companyemployeespring.repository.EmployeeRepository;
+import com.example.companyemployeespring.service.CompanyService;
+import com.example.companyemployeespring.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -20,14 +20,14 @@ import java.util.Optional;
 public class CompanyController {
 
     @Autowired
-    private CompanyRepository companyRepository;
+    private CompanyService companyService;
 
     @Autowired
-    private EmployeeRepository employeeRepository;
+    private EmployeeService employeeService;
 
     @GetMapping("/companies")
     public String getCompanies(ModelMap modelMap){
-        modelMap.addAttribute("companies",companyRepository.findAll());
+        modelMap.addAttribute("companies",companyService.findAll());
         return "companies";
     }
 
@@ -43,7 +43,7 @@ public class CompanyController {
             if (company.getName().equals("open_to_work")){
                 return "redirect:/companies";
             }
-            companyRepository.save(company);
+            companyService.save(company);
             return "redirect:/companies";
         }
         return "redirect:/companies";
@@ -51,24 +51,24 @@ public class CompanyController {
 
     @GetMapping("/deleteCompany")
     public String deleteCompanyById(@RequestParam("id") int id){
-        Optional<Company> company = companyRepository.findById(id);
-        List<Employee> allByCompany_id = employeeRepository.findAllByCompany_Id(company.get().getId());
+        Optional<Company> company = companyService.findById(id);
+        List<Employee> allByCompany_id = employeeService.findAllByCompany_Id(company.get().getId());
         if (allByCompany_id != null){
             for (Employee employee : allByCompany_id) {
                 employee.setPosition(Position.OPEN_TO_WORK);
                 employee.setCompany(returnDefaultCompany());
             }
         }
-        companyRepository.delete(company.get());
+        companyService.delete(company.get());
         return "redirect:/companies";
     }
 
     public Company returnDefaultCompany(){
-        if (companyRepository.findByName("no_company") == null){
-            companyRepository.save(Company.builder().name("no_company").size(5).address("no_company").build());
-            return companyRepository.findByName("no_company");
+        if (companyService.findByName("no_company") == null){
+            companyService.save(Company.builder().name("no_company").size(5).address("no_company").build());
+            return companyService.findByName("no_company");
         }
-        return companyRepository.findByName("no_company");
+        return companyService.findByName("no_company");
     }
 
 }
