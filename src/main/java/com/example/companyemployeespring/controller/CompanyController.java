@@ -6,6 +6,7 @@ import com.example.companyemployeespring.model.Position;
 import com.example.companyemployeespring.service.CompanyService;
 import com.example.companyemployeespring.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +28,7 @@ public class CompanyController {
     private EmployeeService employeeService;
 
     @GetMapping("/companies")
-    public String getCompanies(ModelMap modelMap){
+    public String getCompanies( ModelMap modelMap){
         modelMap.addAttribute("companies",companyService.findAll());
         return "companies";
     }
@@ -40,7 +42,7 @@ public class CompanyController {
     @PostMapping("/addCompany")
     public String addCompany(@ModelAttribute Company company,ModelMap modelMap) {
         if (company != null) {
-            if (company.getName().equals("open_to_work")){
+            if (company.getName().equals("no_company")){
                 return "redirect:/companies";
             }
             companyService.save(company);
