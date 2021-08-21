@@ -9,10 +9,10 @@
 <body>
 
 <a href="/logout" th:if="${username != null }" th:text="Logout"></a><br>
-<a href="/login" th:if="${username == null }" th:text="Login"></a><br>
+<a href="/admin/loginPage" th:if="${username == null }" th:text="Login"></a><br>
 
 <h3 th:if="${username != null }" th:text="Welcome + ' ' + ${username}"></h3><br>
-
+<!--<h3 th:if="${role != null }" th:text="You Are  + ' ' + ${role} + ' ' + your privilegies ... "></h3><br>-->
 
 <div class="buttons">
     <h1>Company Employee</h1>

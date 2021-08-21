@@ -6,8 +6,6 @@
 </head>
 <body>
 
-<a href="/addCompany"><button>Add Company</button></a>
-
 <div>
 
     <h1>All Companies</h1>
@@ -17,18 +15,16 @@
             <th>Size</th>
             <th>Address</th>
         </tr>
-        <tr  th:each="company : ${companies}">
-            <td th:text="${company.name}"></td>
-            <td th:text="${company.size}"></td>
-            <td th:text="${company.address}"></td>
-            <td><a th:href="@{/deleteCompany(id=${company.id})}" href="#">Delete</a></td>
+        <tr  th:each="company : ${companies}" id="main">
+            <td id="name" data-value th:text="${company.name}"></td>
+            <td id="size" th:text="${company.size}"></td>
+            <td id="address" th:text="${company.address}"></td>
         </tr>
     </table>
 
 </div>
-
-<a href="/"><h3>Back</h3></a>
+<a href="/"><h3>Back</h3></a><br>
+<a href="/employees"><h3>Employees</h3></a>
 
 </body>
-
 </html>

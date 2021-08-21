@@ -12,8 +12,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "employee")
-public class Employee {
+@Table(name = "user")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,11 +21,10 @@ public class Employee {
     private String name;
     private String surname;
     private String email;
-    private int phoneNumber;
-    private double salary;
+    private String username;
+    private String password;
+    private String picUrl;
     @Enumerated(EnumType.STRING)
-    private Position position;
-    @ManyToOne
-    private Company company;
+    private Role role;
 
 }

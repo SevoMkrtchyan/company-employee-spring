@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Administrator</title>
+</head>
+<body>
+<div>
+    <a href="/addCompany"><button>Add Company</button></a><br>
+    <h1>All Companies</h1>
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Size</th>
+            <th>Address</th>
+        </tr>
+        <tr  th:each="company : ${companies}" id="main">
+            <td id="name" data-value th:text="${company.name}"></td>
+            <td id="size" th:text="${company.size}"></td>
+            <td id="address" th:text="${company.address}"></td>
+            <td><a th:href="@{/deleteCompany(id=${company.id})}" href="#">Delete</a></td>
+        </tr>
+    </table>
+</div>
+<br>
+<br>
+<div>
+    <a href="/addEmployee"><button>Add Employee</button></a><br>
+    <h1>All Employees</h1>
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Salary</th>
+            <th>Position</th>
+            <th>Company Name</th>
+        </tr>
+        <tr  th:each="employee : ${employees}">
+            <td th:text="${employee.name}"></td>
+            <td th:text="${employee.surname}"></td>
+            <td th:text="${employee.email}"></td>
+            <td th:text="${employee.phoneNumber}"></td>
+            <td th:text="${employee.salary}"></td>
+            <td><span  th:if="${employee.position != null}" th:text="${employee.position.name()}">No Position Yet</span></td>
+            <td  th:text="${employee.company.name}"></td>
+            <td><a th:href="@{/deleteEmployee(id=${employee.id})}" href="#">Delete</a></td>
+        </tr>
+    </table>
+</div>
+<br>
+<br>
+<div>
+    <a href="/register"><button>Register new User</button></a><br>
+    <h1>All Users</h1>
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Email</th>
+            <th>Role</th>
+        </tr>
+        <tr  th:each="user : ${users}">
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.surname}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.role.name()}"></td>
+            <td><a th:href="@{/deleteUser(id=${user.id})}" href="#">Delete</a></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

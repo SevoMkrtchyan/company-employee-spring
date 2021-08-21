@@ -1,11 +1,13 @@
 package com.example.companyemployeespring.controller;
 
-import com.example.companyemployeespring.model.Company;
 import com.example.companyemployeespring.model.Employee;
 import com.example.companyemployeespring.model.Position;
 import com.example.companyemployeespring.repository.CompanyRepository;
 import com.example.companyemployeespring.repository.EmployeeRepository;
+import com.example.companyemployeespring.security.CurrentUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
