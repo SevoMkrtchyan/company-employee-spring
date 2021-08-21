@@ -68,8 +68,10 @@ public class AdminController {
         if (userOptional.isPresent()){
             return  "redirect:/?msg=User Already Exist";
         }
-        userService.save(userOptional.get());
-        return "redirect:/?msg=User has successfully registered";
+        user.setRole(Role.USER);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userService.save(user);
+        return "redirect:/admin?msg=User has successfully registered";
     }
 
 }
