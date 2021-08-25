@@ -1,19 +1,19 @@
 package com.example.companyemployeespring.security;
 
-import com.example.companyemployeespring.model.User;
+import com.example.companyemployeespring.model.Employee;
 import org.springframework.security.core.authority.AuthorityUtils;
 
 
 public class CurrentUser extends org.springframework.security.core.userdetails.User {
 
-    private User user;
+    private Employee employee;
 
-    public CurrentUser(User user) {
-        super(user.getUsername(), user.getPassword(), AuthorityUtils.createAuthorityList(user.getRole().name()));
-        this.user = user;
+    public CurrentUser(Employee employee) {
+        super(employee.getUsername(), employee.getPassword(), AuthorityUtils.createAuthorityList(employee.getPosition().name()));
+        this.employee = employee;
     }
 
-    public User getUser() {
-        return user;
+    public Employee getEmployee() {
+        return employee;
     }
 }

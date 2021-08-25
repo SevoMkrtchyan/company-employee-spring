@@ -16,4 +16,7 @@ public interface EmployeeService {
     List<Employee> findAllByCompany_Id(int id);
 
     void delete(int id);
+
+    Optional<Employee> findEmployeeByUsername(String username);
+
 }

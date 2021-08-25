@@ -21,6 +21,8 @@ public class Employee {
     private String name;
     private String surname;
     private String email;
+    private String username;
+    private String password;
     private int phoneNumber;
     private double salary;
     @Enumerated(EnumType.STRING)

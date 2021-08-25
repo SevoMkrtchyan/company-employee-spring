@@ -1,11 +1,10 @@
 package com.example.companyemployeespring.controller;
 
-import com.example.companyemployeespring.model.Role;
-import com.example.companyemployeespring.model.User;
+import com.example.companyemployeespring.model.Employee;
+import com.example.companyemployeespring.model.Position;
 import com.example.companyemployeespring.security.CurrentUser;
 import com.example.companyemployeespring.service.CompanyService;
 import com.example.companyemployeespring.service.EmployeeService;
-import com.example.companyemployeespring.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,19 +21,11 @@ import java.util.Optional;
 public class AdminController {
 
     private final PasswordEncoder passwordEncoder;
-    private final UserService userService;
     private final EmployeeService employeeService;
     private final CompanyService companyService;
 
-    @GetMapping("/admin")
-    public String adminPage(ModelMap modelMap) {
-        modelMap.addAttribute("users", userService.findAll());
-        modelMap.addAttribute("employees", employeeService.findAll());
-        modelMap.addAttribute("companies", companyService.findAll());
-        return "admin";
-    }
 
-    @GetMapping("/admin/loginPage")
+    @GetMapping("/loginPage")
     public String getLoginPage() {
         return "login";
     }
@@ -44,28 +35,25 @@ public class AdminController {
         if (currentUser == null) {
             return "redirect:/";
         }
-        if (currentUser.getUser().getRole() == Role.ADMIN) {
-            return "redirect:/admin";
-        }
-        return "redirect:/user";
+        return "redirect:/loggedEmployee";
     }
 
     @GetMapping("/register")
     public String forwardRegPage(ModelMap modelMap) {
-        modelMap.addAttribute("user", new User());
+        modelMap.addAttribute("employee", new Employee());
         return "register";
     }
 
     @PostMapping("/register")
-    public String register(@ModelAttribute User user) {
-        Optional<User> userOptional = userService.findByUsername(user.getUsername());
+    public String register(@ModelAttribute Employee employee) {
+        Optional<Employee> userOptional = employeeService.findEmployeeByUsername(employee.getUsername());
         if (userOptional.isPresent()) {
-            return "redirect:/?msg=User Already Exist";
+            return "redirect:/?msg=Employee Already Exist";
         }
-        user.setRole(Role.USER);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userService.save(user);
-        return "redirect:/admin?msg=User has successfully registered";
+        employee.setPosition(Position.NO_POSITION_YET);
+        employee.setPassword(passwordEncoder.encode(employee.getPassword()));
+        employeeService.save(employee);
+        return "redirect:/admin?msg=Employee has successfully registered";
     }
 
 }

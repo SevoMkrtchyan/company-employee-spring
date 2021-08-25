@@ -28,6 +28,9 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     public Optional<Company> findById(int id) {
+        if (!companyRepository.findById(id).isPresent()) {
+            return null;
+        }
         return companyRepository.findById(id);
     }
 
@@ -49,7 +52,11 @@ public class CompanyServiceImpl implements CompanyService {
 
     public Company returnDefaultCompany() {
         if (findByName("no_company") == null) {
-            save(Company.builder().name("no_company").size(5).address("no_company").build());
+            save(Company.builder()
+                    .name("no_company")
+                    .size(5)
+                    .address("no_company")
+                    .build());
             return findByName("no_company");
         }
         return findByName("no_company");

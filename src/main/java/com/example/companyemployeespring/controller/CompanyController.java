@@ -2,7 +2,6 @@ package com.example.companyemployeespring.controller;
 
 import com.example.companyemployeespring.model.Company;
 import com.example.companyemployeespring.service.CompanyService;
-import com.example.companyemployeespring.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -11,12 +10,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Optional;
+
 @Controller
 @RequiredArgsConstructor
 public class CompanyController {
 
     private final CompanyService companyService;
-    private final EmployeeService employeeService;
 
     @GetMapping("/companies")
     public String getCompanies(ModelMap modelMap) {
@@ -48,12 +48,16 @@ public class CompanyController {
         return "redirect:/companies";
     }
 
-    public Company returnDefaultCompany() {
-        if (companyService.findByName("no_company") == null) {
-            companyService.save(Company.builder().name("no_company").size(5).address("no_company").build());
-            return companyService.findByName("no_company");
+    @GetMapping("/singleCompanyPage")
+    public String singleCompanyPage(ModelMap modelMap, @RequestParam("id") int id) {
+        try {
+            Optional<Company> byId = companyService.findById(id);
+            modelMap.addAttribute("companyById", byId.get());
+        } catch (NullPointerException exception) {
+            exception.getMessage();
         }
-        return companyService.findByName("no_company");
+        return "singleCompany";
     }
+
 
 }

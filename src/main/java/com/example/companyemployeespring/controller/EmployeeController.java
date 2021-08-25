@@ -1,7 +1,6 @@
 package com.example.companyemployeespring.controller;
 
 import com.example.companyemployeespring.model.Employee;
-import com.example.companyemployeespring.model.Position;
 import com.example.companyemployeespring.service.CompanyService;
 import com.example.companyemployeespring.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -37,13 +37,7 @@ public class EmployeeController {
 
     @PostMapping("/addEmployee")
     public String addEmployee(@ModelAttribute Employee employee) {
-        if (employee != null) {
-            if (employee.getPosition() == null) {
-                employee.setPosition(Position.NO_POSITION_YET);
-            }
-            employeeService.save(employee);
-            return "redirect:/employees";
-        }
+        employeeService.save(employee);
         return "redirect:/employees";
     }
 
@@ -51,6 +45,22 @@ public class EmployeeController {
     public String deleteEmployeeById(@RequestParam("id") int id) {
         employeeService.delete(id);
         return "redirect:/employees";
+    }
+
+    @GetMapping("/singleEmployeePage")
+    public String singleEmployeePage(ModelMap modelMap, @RequestParam("id") int id) {
+        try {
+            Optional<Employee> byId = employeeService.findById(id);
+            modelMap.addAttribute("employeeById", byId.get());
+        } catch (NullPointerException exception) {
+            exception.getMessage();
+        }
+        return "singleEmployee";
+    }
+
+    @GetMapping("/loggedEmployee")
+    public String getLoggedEmployeePage(ModelMap modelMap){
+        return "loggedEmployee";
     }
 
 }

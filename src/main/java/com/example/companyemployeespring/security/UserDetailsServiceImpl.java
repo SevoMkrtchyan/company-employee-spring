@@ -1,7 +1,7 @@
 package com.example.companyemployeespring.security;
 
-import com.example.companyemployeespring.model.User;
-import com.example.companyemployeespring.repository.UserRepository;
+import com.example.companyemployeespring.model.Employee;
+import com.example.companyemployeespring.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,12 +12,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    private final EmployeeRepository employeeRepository;
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(s).orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        return new CurrentUser(user);
+        Employee employee = employeeRepository.findEmployeeByUsername(s).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return new CurrentUser(employee);
     }
-
 }

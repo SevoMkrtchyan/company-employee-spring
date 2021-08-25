@@ -7,8 +7,8 @@
 <body>
 <div th:fragment="header">
     <h3 th:if="${currentUser != null && currentUser.name != null}"  th:text="Welcome + ' ' + ${currentUser.name}"></h3><br>
-    <a href="/logout" th:if="${currentUser != null }" th:text="Logout"></a><br>
-    <a href="/admin/loginPage" th:if="${currentUser == null }" th:text="Login"></a><br>
+    <a href="/logout" th:if="${currentUser != null && currentUser.name != null}" th:text="Logout"></a><br>
+    <a href="/loginPage" th:if="${currentUser == null || currentUser.name == null }" th:text="Login"></a><br>
     <a href="/">Home</a>
 </div>
 </body>

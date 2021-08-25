@@ -17,9 +17,9 @@
             <th>Address</th>
         </tr>
         <tr th:each="company : ${companies}" id="main">
-            <td id="name" data-value th:text="${company.name}"></td>
-            <td id="size" th:text="${company.size}"></td>
-            <td id="address" th:text="${company.address}"></td>
+            <td><a th:href="@{/singleCompanyPage(id=${company.id})}" href="#"><span th:text="${company.name}"></span></a></td>
+            <td th:text="${company.size}"></td>
+            <td th:text="${company.address}"></td>
             <td><a th:href="@{/deleteCompany(id=${company.id})}" href="#">Delete</a></td>
         </tr>
     </table>
@@ -42,7 +42,7 @@
             <th>Company Name</th>
         </tr>
         <tr th:each="employee : ${employees}">
-            <td th:text="${employee.name}"></td>
+            <td><a th:href="@{/singleEmployeePage(id=${employee.id})}" href="#" ><span th:text="${employee.name}"></span></a></td>
             <td th:text="${employee.surname}"></td>
             <td th:text="${employee.email}"></td>
             <td th:text="${employee.phoneNumber}"></td>
