@@ -1,7 +1,6 @@
 package com.example.companyemployeespring.controller;
 
 import com.example.companyemployeespring.model.Employee;
-import com.example.companyemployeespring.model.Position;
 import com.example.companyemployeespring.service.CompanyService;
 import com.example.companyemployeespring.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
@@ -37,13 +36,7 @@ public class EmployeeController {
 
     @PostMapping("/addEmployee")
     public String addEmployee(@ModelAttribute Employee employee) {
-        if (employee != null) {
-            if (employee.getPosition() == null) {
-                employee.setPosition(Position.NO_POSITION_YET);
-            }
-            employeeService.save(employee);
-            return "redirect:/employees";
-        }
+        employeeService.save(employee);
         return "redirect:/employees";
     }
 

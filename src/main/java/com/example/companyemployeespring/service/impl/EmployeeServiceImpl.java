@@ -1,6 +1,7 @@
 package com.example.companyemployeespring.service.impl;
 
 import com.example.companyemployeespring.model.Employee;
+import com.example.companyemployeespring.model.Position;
 import com.example.companyemployeespring.repository.EmployeeRepository;
 import com.example.companyemployeespring.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     public void save(Employee employee) {
+        if (employee.getPosition() == null) {
+            employee.setPosition(Position.NO_POSITION_YET);
+        }
         employeeRepository.save(employee);
     }
 

@@ -2,7 +2,6 @@ package com.example.companyemployeespring.controller;
 
 import com.example.companyemployeespring.model.Company;
 import com.example.companyemployeespring.service.CompanyService;
-import com.example.companyemployeespring.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class CompanyController {
 
     private final CompanyService companyService;
-    private final EmployeeService employeeService;
 
     @GetMapping("/companies")
     public String getCompanies(ModelMap modelMap) {
@@ -46,14 +44,6 @@ public class CompanyController {
     public String deleteCompanyById(@RequestParam("id") int id) {
         companyService.delete(id);
         return "redirect:/companies";
-    }
-
-    public Company returnDefaultCompany() {
-        if (companyService.findByName("no_company") == null) {
-            companyService.save(Company.builder().name("no_company").size(5).address("no_company").build());
-            return companyService.findByName("no_company");
-        }
-        return companyService.findByName("no_company");
     }
 
 }
