@@ -6,7 +6,9 @@
 </head>
 <body>
 <div>
-    <a href="/addCompany"><button>Add Company</button></a><br>
+    <a href="/addCompany">
+        <button>Add Company</button>
+    </a><br>
     <h1>All Companies</h1>
     <table border="1">
         <tr>
@@ -14,7 +16,7 @@
             <th>Size</th>
             <th>Address</th>
         </tr>
-        <tr  th:each="company : ${companies}" id="main">
+        <tr th:each="company : ${companies}" id="main">
             <td id="name" data-value th:text="${company.name}"></td>
             <td id="size" th:text="${company.size}"></td>
             <td id="address" th:text="${company.address}"></td>
@@ -25,7 +27,9 @@
 <br>
 <br>
 <div>
-    <a href="/addEmployee"><button>Add Employee</button></a><br>
+    <a href="/addEmployee">
+        <button>Add Employee</button>
+    </a><br>
     <h1>All Employees</h1>
     <table border="1">
         <tr>
@@ -37,14 +41,15 @@
             <th>Position</th>
             <th>Company Name</th>
         </tr>
-        <tr  th:each="employee : ${employees}">
+        <tr th:each="employee : ${employees}">
             <td th:text="${employee.name}"></td>
             <td th:text="${employee.surname}"></td>
             <td th:text="${employee.email}"></td>
             <td th:text="${employee.phoneNumber}"></td>
             <td th:text="${employee.salary}"></td>
-            <td><span  th:if="${employee.position != null}" th:text="${employee.position.name()}">No Position Yet</span></td>
-            <td  th:text="${employee.company.name}"></td>
+            <td><span th:if="${employee.position != null}" th:text="${employee.position.name()}">No Position Yet</span>
+            </td>
+            <td th:text="${employee.company.name}"></td>
             <td><a th:href="@{/deleteEmployee(id=${employee.id})}" href="#">Delete</a></td>
         </tr>
     </table>
@@ -53,7 +58,9 @@
 <br>
 <div>
     <span th:if="${msg != null}" th:text="${msg}"></span><br>
-    <a href="/register"><button>Register new User</button></a><br>
+    <a href="/register">
+        <button>Register new User</button>
+    </a><br>
     <h1>All Users</h1>
     <table border="1">
         <tr>
@@ -62,7 +69,7 @@
             <th>Email</th>
             <th>Role</th>
         </tr>
-        <tr  th:each="user : ${users}">
+        <tr th:each="user : ${users}">
             <td th:text="${user.name}"></td>
             <td th:text="${user.surname}"></td>
             <td th:text="${user.email}"></td>
@@ -71,5 +78,8 @@
         </tr>
     </table>
 </div>
+<a href="/">Home Page</a><br>
+<a href="/employees">Employees</a><br>
+<a href="/companies">Companies</a><br>
 </body>
 </html>
