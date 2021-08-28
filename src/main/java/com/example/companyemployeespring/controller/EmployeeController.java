@@ -76,13 +76,13 @@ public class EmployeeController {
 
     @GetMapping("/sendMessage")
     public String sendMessage(@RequestParam("id") int id, ModelMap modelMap, @AuthenticationPrincipal CurrentUser currentUser) {
-        List<Message> send = messageService.findMessagesByFromIdAndToId(currentUser.getEmployee().getId(), id);
-        List<Message> receive = messageService.findMessagesByFromIdAndToId(id, currentUser.getEmployee().getId());
-        if (!send.isEmpty()) {
-            modelMap.addAttribute("send", send);
-        }
-        if (!receive.isEmpty()) {
-            modelMap.addAttribute("receive", receive);
+        try {
+            List<Message> send = messageService.findMessagesByFromIdAndToId(currentUser.getEmployee().getId(), id);
+            if (!send.isEmpty()) {
+                modelMap.addAttribute("send", send);
+            }
+        } catch (NullPointerException e) {
+            modelMap.addAttribute("msg", e.getMessage());
         }
         modelMap.addAttribute("toEmployee", employeeService.findById(id).get());
         modelMap.addAttribute("emptyMessage", new Message());
