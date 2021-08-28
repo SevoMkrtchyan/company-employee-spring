@@ -6,16 +6,15 @@
 </head>
 <body>
 <div>
-
-    <div>
-        <h2>Chat</h2>
-        <div></div>
+    <a href="/loggedEmployee">Back Page</a><br>
+    <a href="/logout">Logout</a>
+    <h1 th:text="${'Start messaging with ' + ' ' + toEmployee.name + ' ' + toEmployee.surname}"></h1>
+    <div style="border: #141218; width: 50%">
         <ul th:each="message : ${send}" style="list-style-type: none">
             <li th:style="${currentUser.id != message.from.id ? 'text-align: right' : 'text-align: left'}">
-                <div >
-                <span th:text="${message.getTimestamp()}"></span>
-                <span th:text="${message.getFrom().username}"></span>
-                <span th:text="${message.getSms()}"></span>
+                <div>
+                    <span th:text="${message.getTimestamp()}"></span><br>
+                    <span th:text="${message.getSms()}" style="color: blue"></span>
                 </div>
             </li>
         </ul>
@@ -28,7 +27,6 @@
         <input type="hidden" name="toId" th:value="${toEmployee.getId()}">
         <input type="submit" th:value="Send">
     </form>
-
 </div>
 </body>
 </html>
