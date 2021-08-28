@@ -75,21 +75,28 @@ public class EmployeeController {
     }
 
     @GetMapping("/sendMessage")
-    public String sendMessage(@RequestParam("id")int id,ModelMap modelMap,@AuthenticationPrincipal CurrentUser currentUser){
+    public String sendMessage(@RequestParam("id") int id, ModelMap modelMap, @AuthenticationPrincipal CurrentUser currentUser) {
         List<Message> send = messageService.findMessagesByFromIdAndToId(currentUser.getEmployee().getId(), id);
-        List<Message> receive = messageService.findMessagesByFromIdAndToId(id,currentUser.getEmployee().getId());
-        modelMap.addAttribute("send",send);
-        modelMap.addAttribute("receive",receive);
-        modelMap.addAttribute("toEmployee",employeeService.findById(id));
-        modelMap.addAttribute("emptyMessage",new Message());
+        List<Message> receive = messageService.findMessagesByFromIdAndToId(id, currentUser.getEmployee().getId());
+        if (!send.isEmpty()) {
+            modelMap.addAttribute("send", send);
+        }
+        if (!receive.isEmpty()) {
+            modelMap.addAttribute("receive", receive);
+        }
+        modelMap.addAttribute("toEmployee", employeeService.findById(id).get());
+        modelMap.addAttribute("emptyMessage", new Message());
         return "message";
     }
 
-    @PostMapping("/sendMessage")
-    public String send(@ModelAttribute Message message){
+    @PostMapping("/send")
+    public String send(@ModelAttribute Message message, @RequestParam("toId") int toId,
+                       @AuthenticationPrincipal CurrentUser currentUser) {
+        message.setFrom(currentUser.getEmployee());
+        message.setTo(employeeService.findById(toId).get());
         message.setTimestamp(new Date(System.currentTimeMillis()).toString());
         messageService.save(message);
-        return "redirect:/sendMessage";
+        return "redirect:/sendMessage?id=" + toId;
     }
-    
+
 }

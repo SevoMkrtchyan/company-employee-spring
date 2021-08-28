@@ -10,4 +10,5 @@ public interface MessageService {
 
     List<Message> findMessagesByFromIdAndToId(int fromId, int toId);
 
+
 }

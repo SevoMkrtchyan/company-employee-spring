@@ -7,27 +7,28 @@
 <body>
 <div>
 
-<!--    <div>-->
-<!--        <h2>Chat</h2>-->
-<!--        <div th:each="message : ${send}"></div>-->
-<!--        <ul>-->
-<!--            <li>-->
-<!--                <div>-->
-<!--                    <span th:text="${message.getTimestamp()}"></span>-->
-<!--                    <span th:text="${currentUser.name}"></span>-->
-<!--                </div>-->
-<!--                <div>-->
-<!--                  <span></span>-->
-<!--                </div>-->
-<!--            </li>-->
-<!--        </ul>-->
-<!--    </div>-->
+    <!--    <div>-->
+    <!--        <h2>Chat</h2>-->
+    <!--        <div th:each="message : ${send}"></div>-->
+    <!--        <ul>-->
+    <!--            <li>-->
+    <!--                <div>-->
+    <!--                    <span th:text="${message.getTimestamp()}"></span>-->
+    <!--                    <span th:text="${currentUser.name}"></span>-->
+    <!--                </div>-->
+    <!--                <div>-->
+    <!--                  <span></span>-->
+    <!--                </div>-->
+    <!--            </li>-->
+    <!--        </ul>-->
+    <!--    </div>-->
 
-    <form action="/sendMessage" method="post" th:object="emptyMessage">
-       <input type="text" th:object="*{message}">
-        <input type="hidden" th:value="${currentUser.id}" th:object="*{fromId}">
-        <input type="hidden" th:value="${toEmployee.id}" th:object="*{toId}">
-        <input type="submit" th:text="Submit">
+    <form action="/send" method="post" th:object="${emptyMessage}">
+        <label>
+            <input type="text" th:field="*{sms}">
+        </label>
+        <input type="hidden" name="toId" th:value="${toEmployee.getId()}">
+        <input type="submit" th:value="Send">
     </form>
 
 </div>

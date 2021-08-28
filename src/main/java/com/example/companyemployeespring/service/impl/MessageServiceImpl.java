@@ -14,16 +14,16 @@ public class MessageServiceImpl implements MessageService {
 
     private final MessageRepository messageRepository;
 
-    public List<Message> findMessagesByFromIdAndToId(int fromId,int toId){
-        List<Message> messageByFromIdAndToId = messageRepository.findMessageByFromIdAndToId(fromId, toId);
-        if (!messageByFromIdAndToId.isEmpty()){
-         return messageByFromIdAndToId;
-        }
-        return null;
+    public void save(Message message) {
+        messageRepository.save(message);
     }
 
-    public void save(Message message){
-        messageRepository.save(message);
+    public List<Message> findMessagesByFromIdAndToId(int fromId, int toId) {
+        List<Message> messageByFromIdAndToId = messageRepository.findMessagesByFrom_IdAndTo_Id(fromId, toId);
+        if (!messageByFromIdAndToId.isEmpty()) {
+            return messageByFromIdAndToId;
+        }
+        return null;
     }
 
 

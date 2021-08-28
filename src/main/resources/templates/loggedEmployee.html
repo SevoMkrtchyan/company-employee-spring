@@ -19,15 +19,16 @@
             <th>Company Name</th>
 
         </tr>
-        <tr  th:each="employee : ${employeesById}">
+        <tr th:each="employee : ${employeesById}">
             <td th:text="${employee.name}"></td>
             <td th:text="${employee.surname}"></td>
             <td th:text="${employee.email}"></td>
             <td th:text="${employee.phoneNumber}"></td>
             <td th:text="${employee.salary}"></td>
-            <td><span  th:if="${employee.position != null}" th:text="${employee.position.name()}">No Position Yet</span></td>
-            <td  th:text="${employee.company.name}"></td>
-            <td><a th:href="@{/sendMessage(id=${employee.id})}" href="#"><span th:text="Send Message"></span></a></td>
+            <td><span th:if="${employee.position != null}" th:text="${employee.position.name()}">No Position Yet</span>
+            </td>
+            <td th:text="${employee.company.name}"></td>
+            <td><a th:href="@{/sendMessage(id=${employee.id})}" href="#"><span>Send Message</span></a></td>
         </tr>
     </table>
 

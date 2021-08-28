@@ -18,11 +18,11 @@ public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @ManyToOne
-    private Employee fromId;
-    @ManyToOne
-    private Employee toId;
-    private String message;
+    private String sms;
     private String timestamp;
+    @ManyToOne
+    private Employee from;
+    @ManyToOne
+    private Employee to;
 
 }
