@@ -6,7 +6,7 @@
 </head>
 <body>
 <div>
-    <a href="/addCompany">
+    <a href="/admin/addCompany">
         <button>Add Company</button>
     </a><br>
     <h1>All Companies</h1>
@@ -27,7 +27,7 @@
 <br>
 <br>
 <div>
-    <a href="/addEmployee">
+    <a href="/admin/addEmployee">
         <button>Add Employee</button>
     </a><br>
     <h1>All Employees</h1>
@@ -56,28 +56,7 @@
 </div>
 <br>
 <br>
-<div>
-    <span th:if="${msg != null}" th:text="${msg}"></span><br>
-    <a href="/register">
-        <button>Register new User</button>
-    </a><br>
-    <h1>All Users</h1>
-    <table border="1">
-        <tr>
-            <th>Name</th>
-            <th>Surname</th>
-            <th>Email</th>
-            <th>Role</th>
-        </tr>
-        <tr th:each="user : ${users}">
-            <td th:text="${user.name}"></td>
-            <td th:text="${user.surname}"></td>
-            <td th:text="${user.email}"></td>
-            <td th:text="${user.role.name()}"></td>
-            <td><a th:href="@{/deleteUser(id=${user.id})}" href="#">Delete</a></td>
-        </tr>
-    </table>
-</div>
+
 <a href="/">Home Page</a><br>
 <a href="/employees">Employees</a><br>
 <a href="/companies">Companies</a><br>

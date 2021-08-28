@@ -24,13 +24,13 @@ public class CompanyController {
         return "companies";
     }
 
-    @GetMapping("/addCompany")
+    @GetMapping("/admin/addCompany")
     public String redirectToAddCompany(ModelMap modelMap) {
         modelMap.addAttribute("company", new Company());
         return "addCompany";
     }
 
-    @PostMapping("/addCompany")
+    @PostMapping("/admin/addCompany")
     public String addCompany(@ModelAttribute Company company, ModelMap modelMap) {
         if (company != null) {
             if (company.getName().equals("no_company")) {
@@ -42,7 +42,7 @@ public class CompanyController {
         return "redirect:/companies";
     }
 
-    @GetMapping("/deleteCompany")
+    @GetMapping("/admin/deleteCompany")
     public String deleteCompanyById(@RequestParam("id") int id) {
         companyService.delete(id);
         return "redirect:/companies";

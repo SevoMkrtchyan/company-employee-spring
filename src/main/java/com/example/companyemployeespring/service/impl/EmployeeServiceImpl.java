@@ -56,4 +56,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.findEmployeeByUsername(username);
     }
 
+    public List<Employee> findEmployeesByCompanyId(int id) {
+        return employeeRepository.findAllByCompany_Id(id);
+    }
+
+
 }
