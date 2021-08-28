@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat</title>
+</head>
+<body>
+<div>
+
+<!--    <div>-->
+<!--        <h2>Chat</h2>-->
+<!--        <div th:each="message : ${send}"></div>-->
+<!--        <ul>-->
+<!--            <li>-->
+<!--                <div>-->
+<!--                    <span th:text="${message.getTimestamp()}"></span>-->
+<!--                    <span th:text="${currentUser.name}"></span>-->
+<!--                </div>-->
+<!--                <div>-->
+<!--                  <span></span>-->
+<!--                </div>-->
+<!--            </li>-->
+<!--        </ul>-->
+<!--    </div>-->
+
+    <form action="/sendMessage" method="post" th:object="emptyMessage">
+       <input type="text" th:object="*{message}">
+        <input type="hidden" th:value="${currentUser.id}" th:object="*{fromId}">
+        <input type="hidden" th:value="${toEmployee.id}" th:object="*{toId}">
+        <input type="submit" th:text="Submit">
+    </form>
+
+</div>
+</body>
+</html>
