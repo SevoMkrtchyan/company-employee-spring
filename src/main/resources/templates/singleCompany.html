@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="https://www.thymeleaf.orh">
+<head>
+    <meta charset="UTF-8">
+    <title>Single Company</title>
+</head>
+<body>
+<div>
+<h1>Single Company Page</h1>
+<table border="1">
+    <tr>
+        <th>Name</th>
+        <th>Size</th>
+        <th>Address</th>
+    </tr>
+    <tr>
+        <td th:text="${companyById.name}"></td>
+        <td th:text="${companyById.size}"></td>
+        <td th:text="${companyById.address}"></td>
+    </tr>
+</table>
+</div>
+<a href="/">Home Page</a><br>
+<a href="/employees">Employees</a><br>
+<a href="/companies">Companies</a><br>
+</body>
+</html>
