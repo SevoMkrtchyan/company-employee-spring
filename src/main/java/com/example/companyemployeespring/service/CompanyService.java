@@ -17,7 +17,4 @@ public interface CompanyService {
 
     Company findByName(String name);
 
-    Company returnDefaultCompany();
-
-
 }

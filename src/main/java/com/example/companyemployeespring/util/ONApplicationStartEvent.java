@@ -1,5 +1,6 @@
 package com.example.companyemployeespring.util;
 
+import com.example.companyemployeespring.model.Company;
 import com.example.companyemployeespring.model.Employee;
 import com.example.companyemployeespring.model.Position;
 import com.example.companyemployeespring.repository.EmployeeRepository;
@@ -31,6 +32,13 @@ public class ONApplicationStartEvent implements ApplicationListener<ApplicationR
                     .salary(4)
                     .phoneNumber(46546)
                     .company(companyService.findByName("no_company"))
+                    .build());
+        }
+        if (companyService.findByName("no_company") == null) {
+            companyService.save(Company.builder()
+                    .name("no_company")
+                    .size(5)
+                    .address("no_company")
                     .build());
         }
 

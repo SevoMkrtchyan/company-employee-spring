@@ -40,7 +40,7 @@ public class CompanyServiceImpl implements CompanyService {
         if (allByCompany_id != null) {
             for (Employee employee : allByCompany_id) {
                 employee.setPosition(Position.OPEN_TO_WORK);
-                employee.setCompany(returnDefaultCompany());
+                employee.setCompany(companyRepository.findByName("no_company"));
             }
         }
         companyRepository.delete(company);
@@ -48,18 +48,6 @@ public class CompanyServiceImpl implements CompanyService {
 
     public Company findByName(String name) {
         return companyRepository.findByName(name);
-    }
-
-    public Company returnDefaultCompany() {
-        if (findByName("no_company") == null) {
-            save(Company.builder()
-                    .name("no_company")
-                    .size(5)
-                    .address("no_company")
-                    .build());
-            return findByName("no_company");
-        }
-        return findByName("no_company");
     }
 
 
