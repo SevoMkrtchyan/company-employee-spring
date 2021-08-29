@@ -22,7 +22,8 @@
 
         </tr>
         <tr  th:each="employee : ${employees}">
-            <td><a th:href="@{/singleEmployeePage(id=${employee.id})}" href="#" ><span th:text="${employee.name}"></span></a></td>
+<!--            <td><a th:href="@{/singleEmployeePage(id=${employee.id})}" href="#" ><span th:text="${employee.name}"></span></a></td>-->
+            <td th:text="${employee.name}"></td>
             <td th:text="${employee.surname}"></td>
             <td th:text="${employee.email}"></td>
             <td th:text="${employee.phoneNumber}"></td>

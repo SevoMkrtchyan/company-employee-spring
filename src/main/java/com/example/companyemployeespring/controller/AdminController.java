@@ -30,6 +30,9 @@ public class AdminController {
         if (currentUser.getEmployee().getPosition().equals(Position.ADMINISTRATOR)) {
             return "redirect:/admin";
         }
+        if (currentUser.getEmployee().getPosition().equals(Position.PRESIDENT)){
+            return "redirect:/president";
+        }
         return "redirect:/loggedEmployee";
     }
 

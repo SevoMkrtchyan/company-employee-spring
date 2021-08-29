@@ -15,9 +15,10 @@
             <th>Size</th>
             <th>Address</th>
         </tr>
-        <tr th:each="company : ${companies}">
-            <td><a th:href="@{/singleCompanyPage(id=${company.id})}" href="#"><span
-                    th:text="${company.name}"></span></a></td>
+        <tr th:each="company : ${companies}" th:if="${company.name != 'no_company'}">
+<!--            <td><a th:href="@{/singleCompanyPage(id=${company.id})}" href="#"><span-->
+<!--                    th:text="${company.name}"></span></a></td>-->
+            <td th:text="${company.name}"></td>
             <td th:text="${company.size}"></td>
             <td th:text="${company.address}"></td>
         </tr>

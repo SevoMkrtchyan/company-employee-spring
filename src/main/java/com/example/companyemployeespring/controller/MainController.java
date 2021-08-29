@@ -11,4 +11,10 @@ public class MainController {
     public String index() {
         return "index";
     }
+
+    @GetMapping("/403")
+    public String accessDeniedpage(){
+        return "403";
+    }
+
 }

@@ -30,7 +30,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/admin/**").hasAnyAuthority("ADMINISTRATOR")
-                .antMatchers(HttpMethod.GET,"/").permitAll()
+                .antMatchers(HttpMethod.GET, "/").permitAll()
+                .antMatchers("/president").hasAnyAuthority("PRESIDENT")
+                .antMatchers("/employees")
+                .hasAnyAuthority(",ADMINISTRATOR,PRESIDENT,VICE_PRESIDENT")
                 .antMatchers("/sendMessage").authenticated()
                 .antMatchers("/send").authenticated()
                 .antMatchers("/loggedEmployee").authenticated()
@@ -41,6 +44,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/")
                 .deleteCookies("JSESSIONID")
                 .invalidateHttpSession(true)
+                .and()
+                .exceptionHandling().accessDeniedPage("/403")
                 .and()
                 .formLogin();
     }
