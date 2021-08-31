@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -34,12 +35,12 @@ public class CompanyController {
     public String addCompany(@ModelAttribute Company company, ModelMap modelMap) {
         if (company != null) {
             if (company.getName().equals("no_company")) {
-                return "redirect:/companies";
+                return "redirect:/admin";
             }
             companyService.save(company);
-            return "redirect:/companies";
+            return "redirect:/admin";
         }
-        return "redirect:/companies";
+        return "redirect:/admin";
     }
 
     @GetMapping("/admin/deleteCompany")

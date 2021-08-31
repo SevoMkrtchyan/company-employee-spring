@@ -24,6 +24,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     public void save(Company company) {
+        company.setSize(companyRepository.findAll().size() + 1);
         companyRepository.save(company);
     }
 
@@ -43,6 +44,7 @@ public class CompanyServiceImpl implements CompanyService {
                 employee.setCompany(companyRepository.findByName("no_company"));
             }
         }
+        company.setSize(companyRepository.findAll().size() - 1);
         companyRepository.delete(company);
     }
 

@@ -2,6 +2,7 @@ package com.example.companyemployeespring.config;
 
 import com.example.companyemployeespring.security.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.reactive.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -38,6 +39,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/send").authenticated()
                 .antMatchers("/loggedEmployee").authenticated()
                 .antMatchers("/singleEmployeePage").authenticated()
+                .antMatchers("/singleCompanyPage").authenticated()
+                .antMatchers("/topic").authenticated()
+                .antMatchers("/createTopic").authenticated()
+                .antMatchers("/singleTopic").authenticated()
+                .antMatchers("/addComment").authenticated()
                 .and()
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))

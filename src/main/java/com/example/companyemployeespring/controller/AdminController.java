@@ -38,8 +38,15 @@ public class AdminController {
 
     @GetMapping("/admin")
     public String adminPage(ModelMap modelMap) {
-        modelMap.addAttribute("employees", employeeService.findAll());
-        modelMap.addAttribute("companies", companyService.findAll());
+        if (!employeeService.findAll().isEmpty()){
+            modelMap.addAttribute("employees", employeeService.findAll());
+        }
+        if (!companyService.findAll().isEmpty()) {
+            modelMap.addAttribute("companies", companyService.findAll());
+        }
+        modelMap.addAttribute("employeesMessage","Employees not found");
+        modelMap.addAttribute("companiesMessage","Companies not found");
+
         return "admin";
     }
 
