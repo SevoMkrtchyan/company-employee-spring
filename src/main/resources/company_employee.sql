@@ -16,6 +16,31 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/`company_employee` /*!40100 DEFAULT CHAR
 
 USE `company_employee`;
 
+/*Table structure for table `comment` */
+
+DROP TABLE IF EXISTS `comment`;
+
+CREATE TABLE `comment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `comment` varchar(255) NOT NULL,
+  `created_date` varchar(255) NOT NULL,
+  `employee_id` int(11) NOT NULL,
+  `topic_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `employee_id` (`employee_id`),
+  KEY `topic_id` (`topic_id`),
+  CONSTRAINT `comment_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`id`),
+  CONSTRAINT `comment_ibfk_2` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+/*Data for the table `comment` */
+
+insert  into `comment`(`id`,`comment`,`created_date`,`employee_id`,`topic_id`) values 
+(1,'n,mn,m','Tue Aug 31 23:56:12 AMT 2021',15,1),
+(2,',.mc.,xzm/.c','Tue Aug 31 23:56:30 AMT 2021',15,1),
+(3,'m.,m.,','Wed Sep 01 00:01:54 AMT 2021',15,2),
+(4,'dfgfgfd','Wed Sep 01 00:01:57 AMT 2021',15,2);
+
 /*Table structure for table `company` */
 
 DROP TABLE IF EXISTS `company`;
@@ -84,7 +109,7 @@ CREATE TABLE `message` (
   KEY `to_id` (`to_id`),
   CONSTRAINT `message_ibfk_1` FOREIGN KEY (`from_id`) REFERENCES `employee` (`id`),
   CONSTRAINT `message_ibfk_2` FOREIGN KEY (`to_id`) REFERENCES `employee` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 
 /*Data for the table `message` */
 
@@ -104,7 +129,32 @@ insert  into `message`(`id`,`sms`,`timestamp`,`from_id`,`to_id`) values
 (13,'','Sun Aug 29 01:43:56 AMT 2021',15,15),
 (14,'','Sun Aug 29 01:54:30 AMT 2021',15,17),
 (15,'','Sun Aug 29 01:54:39 AMT 2021',15,17),
-(16,'kljsklc','Sun Aug 29 17:25:50 AMT 2021',15,13);
+(16,'kljsklc','Sun Aug 29 17:25:50 AMT 2021',15,13),
+(17,'Jfj','Tue Aug 31 19:53:28 AMT 2021',17,15);
+
+/*Table structure for table `topic` */
+
+DROP TABLE IF EXISTS `topic`;
+
+CREATE TABLE `topic` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `employee_id` int(11) NOT NULL,
+  `content` varchar(255) NOT NULL,
+  `created_date` varchar(255) NOT NULL,
+  `comment_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `comment_id` (`comment_id`),
+  CONSTRAINT `topic_ibfk_1` FOREIGN KEY (`comment_id`) REFERENCES `comment` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+/*Data for the table `topic` */
+
+insert  into `topic`(`id`,`employee_id`,`content`,`created_date`,`comment_id`) values 
+(1,15,'ayn inchn e ayn inch@?','Tue Aug 31 22:33:23 AMT 2021',NULL),
+(2,15,'jkhkjhkj','Tue Aug 31 22:35:18 AMT 2021',NULL),
+(3,15,'mlkmlk','Wed Sep 01 00:09:48 AMT 2021',NULL),
+(4,17,'xosanq?','Wed Sep 01 00:11:43 AMT 2021',NULL),
+(5,17,'gegeckuhi?','Wed Sep 01 00:11:51 AMT 2021',NULL);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

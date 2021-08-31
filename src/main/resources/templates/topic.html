@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Topics</title>
+</head>
+<body>
+<div>
+
+    <div>
+        <h1>Topics</h1>
+        <div>
+            <span th:if="${msg != null}" th:text="${msg}"></span><br>
+
+            <span th:each="topicList : ${allTopics}"  >
+                <label th:text="'Created By ' + ' '+ ${topicList.employee.name} + ' ' + ${topicList.employee.surname}"></label><br>
+                <label th:text="'at ' + ${topicList.getCreatedDate()}"></label><br>
+                <label><a th:href="@{/singleTopic(id=${topicList.id})}"><span th:text="${topicList.content}"></span></a></label><br>
+            <br>
+            <br>
+            <br>
+            </span>
+        </div>
+    </div>
+
+    <div>
+        <h3>Create Topic</h3>
+        <form action="/createTopic" method="post" th:object="${topic}" >
+            <label>
+                <input type="text" th:field="*{content}">
+            </label>
+            <input type="Submit" value="Add">
+        </form>
+    </div>
+<a href="/loggedEmployee">Home Page</a><br>
+<a href="/">Main Page</a>
+</div>
+</body>
+</html>

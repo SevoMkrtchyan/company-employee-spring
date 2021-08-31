@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Topic Page</title>
+</head>
+<body>
+<div>
+
+    <div>
+        <span th:text="${singleTopic.content}"></span><br>
+        <br>
+        <span th:if="${msg != null}" th:text="${msg}"></span><br>
+        <br>
+        <ul th:each="comment1 : ${comments}" style="list-style-type: none; border: #141218">
+            <li>
+                <label th:text="${comment1.createdDate}" style="color: darkblue"></label><br>
+                <label th:text="${comment1.employee.name} + ' ' + ${comment1.employee.surname}"></label><br>
+                <label th:text="${comment1.comment}" style="color: blue"></label><br>
+            </li>
+        </ul>
+    </div>
+<div>
+    <h3>Add Comment</h3>
+    <form action="/addComment" method="post">
+        <label>
+            <input type="text" name="comment">
+        </label>
+        <input type="hidden" name="topicId" th:value="${singleTopic.id}">
+        <input type="submit" value="Add">
+    </form>
+</div>
+</div>
+<a th:href="@{/topic(id=${singleTopic.id})}">Topics</a><br>
+<a href="/loggedEmployee">Home</a>
+</body>
+</html>
