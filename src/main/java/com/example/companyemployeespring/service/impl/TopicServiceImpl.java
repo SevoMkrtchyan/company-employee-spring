@@ -1,6 +1,5 @@
 package com.example.companyemployeespring.service.impl;
 
-import com.example.companyemployeespring.model.Employee;
 import com.example.companyemployeespring.model.Topic;
 import com.example.companyemployeespring.repository.EmployeeRepository;
 import com.example.companyemployeespring.repository.TopicRepository;

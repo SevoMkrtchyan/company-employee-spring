@@ -7,12 +7,12 @@
     <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"></script>
 </head>
 <body>
-<h3 th:if="${currentUser != null && currentUser.name != null}" th:text="Welcome + ' ' + ${currentUser.name}"></h3><br>
-<a href="/logout" th:if="${currentUser != null && currentUser.name != null}" th:text="Logout"></a><br>
-<a href="/loggedEmployee" th:if="${currentUser != null && currentUser.name != null}" th:text="'Home Page'"></a><br>
-<a href="/loginPage" th:if="${currentUser == null || currentUser.name == null }" th:text="Login"></a><br>
+<h3 th:if="${currentUser != null && currentUser.name != null}" th:text="#{index.welcome} + ' ' + ${currentUser.name}"></h3><br>
+<a href="/logout" th:if="${currentUser != null && currentUser.name != null}" th:text="#{index.logout}"></a><br>
+<a href="/loggedEmployee" th:if="${currentUser != null && currentUser.name != null}" th:text="#{index.homePage}"></a><br>
+<a href="/loginPage" th:if="${currentUser == null || currentUser.name == null }" th:text="#{index.login}"></a><br>
 <span th:if="${currentUser != null && currentUser.name != null}" >
-<a href="/admin" sec:authorize="hasAuthority('ADMINISTRATOR')" th:text="'Admin Page'"></a><br>
+<a href="/admin" sec:authorize="hasAuthority('ADMINISTRATOR')" th:text="#{index.admin}"></a><br>
 </span>
 <!--<h3 th:if="${role != null }" th:text="You Are  + ' ' + ${role} + ' ' + your privilegies ... "></h3><br>-->
 
@@ -22,14 +22,14 @@
 
     <button style="--content: 'Companies';">
         <div class="left"></div>
-        <a href="/companies">Companies</a>
+        <a href="/companies" th:text="#{index.companies}"></a>
         <div class="right"></div>
     </button>
 
 
         <button style="--content: 'Employees';">
             <div class="left"></div>
-            <a href="/employees"> Employees</a>
+            <a href="/employees" th:text="#{index.employees}"></a>
             <div class="right"></div>
         </button>
 
