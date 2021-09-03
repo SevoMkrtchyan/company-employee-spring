@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Company Employee</title>
@@ -12,7 +12,7 @@
 <a href="/loggedEmployee" th:if="${currentUser != null && currentUser.name != null}" th:text="'Home Page'"></a><br>
 <a href="/loginPage" th:if="${currentUser == null || currentUser.name == null }" th:text="Login"></a><br>
 <span th:if="${currentUser != null && currentUser.name != null}" >
-<a href="/admin" th:if="${currentUser.position == 'ADMINISTRATOR'}" th:text="'Admin Page'"></a><br>
+<a href="/admin" sec:authorize="hasAuthority('ADMINISTRATOR')" th:text="'Admin Page'"></a><br>
 </span>
 <!--<h3 th:if="${role != null }" th:text="You Are  + ' ' + ${role} + ' ' + your privilegies ... "></h3><br>-->
 

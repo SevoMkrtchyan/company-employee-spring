@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,7 +45,7 @@ public class EmployeeController {
     @PostMapping("/admin/addEmployee")
     public String addEmployee(@ModelAttribute Employee employee) {
         employeeService.save(employee);
-        return "redirect:/employees";
+        return "redirect:/admin";
     }
 
     @GetMapping("/admin/deleteEmployee")
@@ -66,7 +67,10 @@ public class EmployeeController {
 
     @GetMapping("/loggedEmployee")
     public String getLoggedEmployeePage(ModelMap modelMap, @AuthenticationPrincipal CurrentUser currentUser) {
-        List<Employee> allByCompany_id = employeeService.findAllByCompany_Id(currentUser.getEmployee().getCompany().getId());
+        List<Employee> allByCompany_id = new LinkedList<>();
+        if (currentUser.getEmployee().getCompany() != null) {
+            allByCompany_id = employeeService.findAllByCompany_Id(currentUser.getEmployee().getCompany().getId());
+        }
         if (!allByCompany_id.isEmpty()) {
             modelMap.addAttribute("employeesById", allByCompany_id);
             return "loggedEmployee";

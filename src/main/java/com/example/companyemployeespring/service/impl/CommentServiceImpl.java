@@ -42,5 +42,14 @@ public class CommentServiceImpl implements CommentService {
         return null;
     }
 
+    public void delete(int id, Employee employee) {
+        List<Comment> allByEmployee = commentRepository.findAllByEmployee(employee);
+        if (!allByEmployee.isEmpty()) {
+            if (allByEmployee.contains(commentRepository.findById(id).get())) {
+                commentRepository.delete(commentRepository.findById(id).get());
+            }
+        }
+    }
+
 
 }

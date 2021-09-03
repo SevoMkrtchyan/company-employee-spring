@@ -1,5 +1,6 @@
 package com.example.companyemployeespring.service;
 
+import com.example.companyemployeespring.model.Comment;
 import com.example.companyemployeespring.model.Message;
 
 import java.util.List;

@@ -25,11 +25,12 @@ public class TopicController {
     private final CommentService commentService;
 
     @GetMapping("/topic")
-    public String topic(ModelMap modelMap) {
-        if (topicService.findAll() == null) {
+    public String topic(ModelMap modelMap, @AuthenticationPrincipal CurrentUser currentUser) {
+        List<Topic> companyId = topicService.findAllByEmployee_Company_Id(currentUser.getEmployee().getCompany().getId());
+        if (companyId.isEmpty()) {
             modelMap.addAttribute("msg", "Here are no topics, do you want to add it?");
         } else {
-            modelMap.addAttribute("allTopics", topicService.findAll());
+            modelMap.addAttribute("allTopics", companyId);
         }
         modelMap.addAttribute("topic", new Topic());
         return "topic";
@@ -65,6 +66,12 @@ public class TopicController {
                 .createdDate(new Date(System.currentTimeMillis()).toString())
                 .comment(comment)
                 .build());
+        return "redirect:/singleTopic?id=" + topicId;
+    }
+
+    @GetMapping("/deleteComment")
+    public String deleteComment(@RequestParam("id") int id, @RequestParam("topicId") int topicId, @AuthenticationPrincipal CurrentUser currentUser) {
+        commentService.delete(id, currentUser.getEmployee());
         return "redirect:/singleTopic?id=" + topicId;
     }
 

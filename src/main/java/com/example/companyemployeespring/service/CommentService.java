@@ -14,4 +14,6 @@ public interface CommentService {
 
     List<Comment> findAllByTopic(Topic topic);
 
+    void delete(int id,Employee employee);
+
 }

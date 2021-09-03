@@ -8,12 +8,9 @@
 
 <h1>Add Company</h1>
 
-<form th:action="@{/addCompany}" method="post" th:object="${company}">
+<form th:action="@{/admin/addCompany}" method="post" th:object="${company}">
     <label>Company Name:</label>
     <input type="text" th:field="*{name}" /><br/>
-
-    <label>Company Size:</label>
-    <input type="text" th:field="*{size}" /><br/>
 
     <label>Company Address:</label>
     <input type="text" th:field="*{address}" /><br/>

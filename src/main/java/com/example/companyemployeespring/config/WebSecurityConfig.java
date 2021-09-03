@@ -44,6 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/createTopic").authenticated()
                 .antMatchers("/singleTopic").authenticated()
                 .antMatchers("/addComment").authenticated()
+                .antMatchers("/deleteComment").authenticated()
                 .and()
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))

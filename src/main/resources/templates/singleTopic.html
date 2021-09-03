@@ -8,7 +8,7 @@
 <div>
 
     <div>
-        <span th:text="${singleTopic.content}"></span><br>
+        <h1 th:text="${singleTopic.content}"></h1><br>
         <br>
         <span th:if="${msg != null}" th:text="${msg}"></span><br>
         <br>
@@ -17,6 +17,9 @@
                 <label th:text="${comment1.createdDate}" style="color: darkblue"></label><br>
                 <label th:text="${comment1.employee.name} + ' ' + ${comment1.employee.surname}"></label><br>
                 <label th:text="${comment1.comment}" style="color: blue"></label><br>
+                <label>
+                    <a th:href="@{/deleteComment(id=${comment1.id},topicId=${singleTopic.id})}" th:text="'Delete Comment'"></a>
+                </label>
             </li>
         </ul>
     </div>
