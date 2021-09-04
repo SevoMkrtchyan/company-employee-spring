@@ -11,5 +11,10 @@
     <a href="/loginPage" th:if="${currentUser == null || currentUser.name == null }" th:text="Login"></a><br>
     <a href="/">Home</a>
 </div>
+<div th:fragment="lang">
+    <a href="?lang=en">ENG</a><br>
+    <a href="?lang=hy">ARM</a><br>
+    <a href="?lang=ru">RUS</a>
+</div>
 </body>
 </html>
