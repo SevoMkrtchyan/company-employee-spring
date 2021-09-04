@@ -25,7 +25,7 @@ public class MessageServiceImpl implements MessageService {
         for (Message message : messageByFromIdAndToId) {
             if (message.getFrom().getId() == fromId && message.getTo().getId() == toId) {
                 for (Message message1 : messageByToIdAndToFrom) {
-                    if (message1.getFrom().getId() == toId && message1.getTo().getId() == fromId){
+                    if (message1.getFrom().getId() == toId && message1.getTo().getId() == fromId) {
                         all.add(message1);
                     }
                 }

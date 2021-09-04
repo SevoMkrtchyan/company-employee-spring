@@ -30,7 +30,7 @@ public class AdminController {
         if (currentUser.getEmployee().getPosition().equals(Position.ADMINISTRATOR)) {
             return "redirect:/admin";
         }
-        if (currentUser.getEmployee().getPosition().equals(Position.PRESIDENT)){
+        if (currentUser.getEmployee().getPosition().equals(Position.PRESIDENT)) {
             return "redirect:/president";
         }
         return "redirect:/loggedEmployee";
@@ -38,14 +38,14 @@ public class AdminController {
 
     @GetMapping("/admin")
     public String adminPage(ModelMap modelMap) {
-        if (!employeeService.findAll().isEmpty()){
+        if (!employeeService.findAll().isEmpty()) {
             modelMap.addAttribute("employees", employeeService.findAll());
         }
         if (!companyService.findAll().isEmpty()) {
             modelMap.addAttribute("companies", companyService.findAll());
         }
-        modelMap.addAttribute("employeesMessage","Employees not found");
-        modelMap.addAttribute("companiesMessage","Companies not found");
+        modelMap.addAttribute("employeesMessage", "Employees not found");
+        modelMap.addAttribute("companiesMessage", "Companies not found");
 
         return "admin";
     }

@@ -13,7 +13,7 @@ public class MainController {
     }
 
     @GetMapping("/403")
-    public String accessDeniedpage(){
+    public String accessDeniedPage() {
         return "403";
     }
 
