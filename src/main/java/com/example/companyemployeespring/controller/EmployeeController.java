@@ -2,11 +2,13 @@ package com.example.companyemployeespring.controller;
 
 import com.example.companyemployeespring.model.Employee;
 import com.example.companyemployeespring.model.Message;
+import com.example.companyemployeespring.model.Position;
 import com.example.companyemployeespring.security.CurrentUser;
 import com.example.companyemployeespring.service.CompanyService;
 import com.example.companyemployeespring.service.EmployeeService;
 import com.example.companyemployeespring.service.MessageService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -22,6 +24,7 @@ import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class EmployeeController {
 
     private final EmployeeService employeeService;
@@ -29,29 +32,49 @@ public class EmployeeController {
     private final MessageService messageService;
 
     @GetMapping("/employees")
-    public String getEmployees(ModelMap modelMap) {
+    public String getEmployees(ModelMap modelMap, @AuthenticationPrincipal CurrentUser currentUser) {
         List<Employee> employees = employeeService.findAll();
         modelMap.addAttribute("employees", employees);
+        log.info("User with email {} tried to open /employees page ", currentUser.getEmployee().getEmail());
         return "employees";
     }
 
     @GetMapping("/admin/addEmployee")
-    public String redirectToAddEmployee(ModelMap modelMap) {
-        modelMap.addAttribute("employee", new Employee());
-        modelMap.addAttribute("companies", companyService.findAll());
-        return "addEmployee";
+    public String redirectToAddEmployee(ModelMap modelMap, @AuthenticationPrincipal CurrentUser currentUser) {
+        if (currentUser.getEmployee().getPosition().equals(Position.ADMINISTRATOR)) {
+            modelMap.addAttribute("employee", new Employee());
+            modelMap.addAttribute("companies", companyService.findAll());
+            return "addEmployee";
+        }
+        log.info("Logged user with email {} tried to open /admin/employee where he has no access",
+                currentUser.getEmployee().getEmail());
+        return "redirect:/";
     }
 
     @PostMapping("/admin/addEmployee")
-    public String addEmployee(@ModelAttribute Employee employee) {
-        employeeService.save(employee);
-        return "redirect:/admin";
+    public String addEmployee(@ModelAttribute Employee employee, @AuthenticationPrincipal CurrentUser currentUser) {
+        if (currentUser.getEmployee().getPosition().equals(Position.ADMINISTRATOR)) {
+            employeeService.save(employee);
+            log.info("Added new Employee with email {} at {} by Administrator with id {}",
+                    employee.getEmail(), new Date(), currentUser.getEmployee().getId());
+            return "redirect:/admin";
+        }
+        log.info("Attempt to create employee, User with name {} and email {} ",
+                currentUser.getEmployee().getName(), currentUser.getEmployee().getEmail());
+        return "redirect:/";
     }
 
     @GetMapping("/admin/deleteEmployee")
-    public String deleteEmployeeById(@RequestParam("id") int id) {
-        employeeService.delete(id);
-        return "redirect:/employees";
+    public String deleteEmployeeById(@RequestParam("id") int id, @AuthenticationPrincipal CurrentUser currentUser) {
+        if (currentUser.getEmployee().getPosition().equals(Position.ADMINISTRATOR)) {
+            employeeService.delete(id);
+            log.info("Employee with id {} and Email {} has successfully delete by Administrator {}",
+                    employeeService.findById(id).get().getId(), employeeService.findById(id).get().getEmail(), currentUser.getEmployee().getEmail());
+            return "redirect:/employees";
+        }
+        log.info("Attempt to delete employee, User with name {} and email {} ",
+                currentUser.getEmployee().getName(), currentUser.getEmployee().getEmail());
+        return "redirect:/";
     }
 
     @GetMapping("/singleEmployeePage")
@@ -61,6 +84,7 @@ public class EmployeeController {
             modelMap.addAttribute("employeeById", byId.get());
         } catch (NullPointerException exception) {
             exception.getMessage();
+            log.error("Attempt to open /singleEmployeePage where Request Param id is null");
         }
         return "singleEmployee";
     }
@@ -75,6 +99,8 @@ public class EmployeeController {
             modelMap.addAttribute("employeesById", allByCompany_id);
             return "loggedEmployee";
         }
+        log.info("User {} {} id = {} has successfully opened /loggedEmployee page ",
+                currentUser.getEmployee().getName(), currentUser.getEmployee().getSurname(), currentUser.getEmployee().getId());
         return "loggedEmployee";
     }
 
@@ -90,6 +116,8 @@ public class EmployeeController {
         }
         modelMap.addAttribute("toEmployee", employeeService.findById(id).get());
         modelMap.addAttribute("emptyMessage", new Message());
+        log.info("Opened /sendMessage page with user {} {} id = {} ",
+                currentUser.getEmployee().getName(), currentUser.getEmployee().getSurname(), currentUser.getEmployee().getId());
         return "message";
     }
 

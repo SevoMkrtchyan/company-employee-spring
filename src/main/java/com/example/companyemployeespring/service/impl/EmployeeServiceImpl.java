@@ -22,7 +22,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.findAll();
     }
 
-    public void save(Employee employee) {
+    public void save(Employee employee){
         if (employee.getPosition() == null) {
             employee.setPosition(Position.NO_POSITION_YET);
         }

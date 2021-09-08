@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 public class MainAdvice {
 
     @ModelAttribute("currentUser")
-    public Employee currentUser(@AuthenticationPrincipal CurrentUser currentUser, ModelMap modelMap) {
+    public Employee currentUser(@AuthenticationPrincipal CurrentUser currentUser) {
         if (currentUser == null) {
             return new Employee();
         }

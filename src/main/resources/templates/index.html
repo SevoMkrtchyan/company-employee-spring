@@ -16,7 +16,6 @@
 <span th:if="${currentUser != null && currentUser.name != null}">
 <a href="/admin" sec:authorize="hasAuthority('ADMINISTRATOR')" th:text="#{index.admin}"></a><br>
 </span>
-<!--<h3 th:if="${role != null }" th:text="You Are  + ' ' + ${role} + ' ' + your privilegies ... "></h3><br>-->
 <div th:include="fragments/header::lang" style=" position: absolute;left: 90%;width: 200px;height: 120px;"></div>
 <div class="buttons">
     <h1 style="color: #4a77d4">Company Employee</h1>
