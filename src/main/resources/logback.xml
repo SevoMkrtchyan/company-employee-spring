@@ -73,8 +73,7 @@
     </appender>
 
 
-    <!-- LOG "com.baeldung*" at TRACE level -->
-    <logger name="com.example.companyemployeespring" additivity="false" level="trace">
+    <logger name="com.example.companyemployeespring" additivity="false" level="info">
         <appender-ref ref="info_logs"/>
         <appender-ref ref="Console"/>
     </logger>
