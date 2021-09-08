@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <property name="LOGS" value="/home/sevo/log/companyemployeespring/" />
+    <property name="LOGS" value="/home/sevo/log/companyemployeespring"/>
 
     <appender name="Console"
               class="ch.qos.logback.core.ConsoleAppender">
@@ -12,7 +12,7 @@
         </layout>
     </appender>
 
-    <appender name="RollingFile"
+    <appender name="info_logs"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOGS}/spring-boot-logger.log</file>
         <encoder
@@ -23,7 +23,7 @@
         <rollingPolicy
                 class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- rollover daily and when the file reaches 10 MegaBytes -->
-            <fileNamePattern>${LOGS}/archived/spring-boot-logger-%d{yyyy-MM-dd}.%i.log
+            <fileNamePattern>${LOGS}/archived/spring-boot-logger-info-%d{yyyy-MM-dd}.%i.log
             </fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy
                     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
@@ -73,26 +73,23 @@
     </appender>
 
 
+    <!-- LOG "com.baeldung*" at TRACE level -->
+    <logger name="com.example.companyemployeespring" additivity="false" level="trace">
+        <appender-ref ref="info_logs"/>
+        <appender-ref ref="Console"/>
+    </logger>
+
+    <Logger name="com.example.companyemployeespring" additivity="false" level="error">
+        <appender-ref ref="error_logs"/>
+    </Logger>
+
+    <Logger name="com.example.companyemployeespring" additivity="false" level="debug">
+        <appender-ref ref="debug_logs"/>
+    </Logger>
+
     <!-- LOG everything at INFO level -->
     <root level="info">
-        <appender-ref ref="RollingFile" />
-        <appender-ref ref="Console" />
+        <appender-ref ref="info_logs"/>
     </root>
-
-    <root level="error">
-        <appender-ref ref="error_logs" />
-        <appender-ref ref="Console" />
-    </root>
-
-    <root level="debug">
-        <appender-ref ref="debug_logs" />
-        <appender-ref ref="Console" />
-    </root>
-
-    <!-- LOG "com.baeldung*" at TRACE level -->
-    <logger name="com.example.companyemployeespring" level="trace" additivity="false">
-        <appender-ref ref="RollingFile" />
-        <appender-ref ref="Console" />
-    </logger>
 
 </configuration>
