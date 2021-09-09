@@ -6,6 +6,7 @@ import com.example.companyemployeespring.model.Position;
 import com.example.companyemployeespring.security.CurrentUser;
 import com.example.companyemployeespring.service.CompanyService;
 import com.example.companyemployeespring.service.EmployeeService;
+import com.example.companyemployeespring.service.MailService;
 import com.example.companyemployeespring.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +31,7 @@ public class EmployeeController {
     private final EmployeeService employeeService;
     private final CompanyService companyService;
     private final MessageService messageService;
+    private final MailService mailService;
 
     @GetMapping("/employees")
     public String getEmployees(ModelMap modelMap, @AuthenticationPrincipal CurrentUser currentUser) {
@@ -55,6 +57,8 @@ public class EmployeeController {
     public String addEmployee(@ModelAttribute Employee employee, @AuthenticationPrincipal CurrentUser currentUser) {
         if (currentUser.getEmployee().getPosition().equals(Position.ADMINISTRATOR)) {
             employeeService.save(employee);
+            mailService.send(employee.getEmail(), "Welcome to Company Employee",
+                    "Dear " + employee.getName() + ", You have successfully registered to our web site!");
             log.info("Added new Employee with email {} at {} by Administrator with id {}",
                     employee.getEmail(), new Date(), currentUser.getEmployee().getId());
             return "redirect:/admin";
