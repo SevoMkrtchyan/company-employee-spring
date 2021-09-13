@@ -6,7 +6,7 @@ import com.example.companyemployeespring.model.Position;
 import com.example.companyemployeespring.security.CurrentUser;
 import com.example.companyemployeespring.service.CompanyService;
 import com.example.companyemployeespring.service.EmployeeService;
-import com.example.companyemployeespring.service.MailService;
+import com.example.companyemployeespring.service.GmailService;
 import com.example.companyemployeespring.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,10 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -31,7 +28,7 @@ public class EmployeeController {
     private final EmployeeService employeeService;
     private final CompanyService companyService;
     private final MessageService messageService;
-    private final MailService mailService;
+    private final GmailService emailService;
 
     @GetMapping("/employees")
     public String getEmployees(ModelMap modelMap, @AuthenticationPrincipal CurrentUser currentUser) {
@@ -54,11 +51,11 @@ public class EmployeeController {
     }
 
     @PostMapping("/admin/addEmployee")
-    public String addEmployee(@ModelAttribute Employee employee, @AuthenticationPrincipal CurrentUser currentUser) {
+    public String addEmployee(@ModelAttribute Employee employee, @AuthenticationPrincipal CurrentUser currentUser, Locale locale) {
         if (currentUser.getEmployee().getPosition().equals(Position.ADMINISTRATOR)) {
-            employeeService.save(employee);
-            mailService.send(employee.getEmail(), "Welcome to Company Employee",
-                    "Dear " + employee.getName() + ", You have successfully registered to our web site!");
+            employeeService.save(employee, locale);
+//            mailService.send(employee.getEmail(), "Welcome to Company Employee",
+//                    "Dear " + employee.getName() + ", You have successfully registered to our web site!");
             log.info("Added new Employee with email {} at {} by Administrator with id {}",
                     employee.getEmail(), new Date(), currentUser.getEmployee().getId());
             return "redirect:/admin";
@@ -73,7 +70,7 @@ public class EmployeeController {
         if (currentUser.getEmployee().getPosition().equals(Position.ADMINISTRATOR)) {
             employeeService.delete(id);
             log.info("Employee with id {} and Email {} has successfully delete by Administrator {}",
-                    employeeService.findById(id).get().getId(), employeeService.findById(id).get().getEmail(), currentUser.getEmployee().getEmail());
+                    currentUser.getEmployee().getId(), currentUser.getEmployee().getEmail(), currentUser.getEmployee().getEmail());
             return "redirect:/employees";
         }
         log.info("Attempt to delete employee, User with name {} and email {} ",
@@ -133,6 +130,13 @@ public class EmployeeController {
         message.setTimestamp(new Date(System.currentTimeMillis()).toString());
         messageService.save(message);
         return "redirect:/sendMessage?id=" + toId;
+    }
+
+    @GetMapping("/verify")
+    public String emailVerify(@RequestParam("email") String email, @RequestParam("token") UUID token) {
+        employeeService.verifyEmail(email, token);
+        log.info("User with email {} has verified account", email);
+        return "redirect:/loginPage";
     }
 
 }

@@ -19,7 +19,7 @@
         <tr th:each="company : ${companies}" id="main">
             <td><a th:href="@{/singleCompanyPage(id=${company.id})}" href="#"><span th:text="${company.name}"></span></a></td>
             <td th:text="${company.address}"></td>
-            <td><a th:href="@{/deleteCompany(id=${company.id})}" href="#">Delete</a></td>
+            <td><a th:href="@{/admin/deleteCompany(id=${company.id})}" href="#">Delete</a></td>
         </tr>
     </table>
 </div>
@@ -49,7 +49,7 @@
             <td><span th:if="${employee.position != null}" th:text="${employee.position.name()}">No Position Yet</span>
             </td>
             <td th:text="${employee.company?.name}"></td>
-            <td><a th:href="@{/deleteEmployee(id=${employee.id})}" href="#">Delete</a></td>
+            <td><a th:href="@{/admin/deleteEmployee(id=${employee.id})}" href="#">Delete</a></td>
         </tr>
     </table>
 </div>

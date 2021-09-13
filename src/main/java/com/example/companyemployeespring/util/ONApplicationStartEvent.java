@@ -11,6 +11,8 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.Locale;
+
 @Component
 @RequiredArgsConstructor
 public class ONApplicationStartEvent implements ApplicationListener<ApplicationReadyEvent> {
@@ -32,6 +34,8 @@ public class ONApplicationStartEvent implements ApplicationListener<ApplicationR
                     .salary(4)
                     .phoneNumber(46546)
                     .company(companyService.findByName("no_company"))
+                    .isEmailVerified(true)
+                    .token(null)
                     .build());
         }
         if (companyService.findByName("no_company") == null) {
