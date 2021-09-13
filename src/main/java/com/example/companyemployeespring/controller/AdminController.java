@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Slf4j
 public class AdminController {
 
-    private final PasswordEncoder passwordEncoder;
     private final EmployeeService employeeService;
     private final CompanyService companyService;
 

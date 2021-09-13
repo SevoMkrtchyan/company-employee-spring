@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Verify</title>
+</head>
+<body>
+<div style="background-color: dodgerblue">
+<span th:text="#{verify.template.dear}"></span>
+<span th:text="${name}"></span>
+<span th:text="#{verify.template.welcome}"></span>
+<a href="#" th:href="${url}"><span th:text="#{verify.template.this}" style="color: darkred"></span></a>
+<span th:text="#{verify.template.account}"></span>
+</div>
+</body>
+</html>
