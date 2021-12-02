@@ -22,7 +22,7 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn -B package --file pom.xml
-    - name: build project
-      run: mvn clean package
-    - name: run project 
-      run: ./mvnw spring-boot:run
+    - name: check dir and whoami command
+      run: ls -la
+    - name: check users
+      run: cat /etc/passwd
