@@ -28,11 +28,11 @@ jobs:
       run: echo ::set-output name=version::$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
       id: project
     - name: Show extracted Maven project version
-      run: echo ${{ steps.project.outputs.version }}
+      run: echo ${{ steps.project.outputs.version }} >> $PROJECT_VERSION
     - run: mkdir staging && cp target/*.jar staging
     - uses: actions/upload-artifact@v2
       with:
-        name: ${{ env.ARTIFACT_NAME }}
+        name: ${{ $PROJECT_VERSION }}
         path: staging
         
     
