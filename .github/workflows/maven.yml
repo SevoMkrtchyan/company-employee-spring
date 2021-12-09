@@ -3,36 +3,40 @@
 # Company Employee Spring Action 
 name: Java CI with Maven
 
-env:
- ARTIFACT_NAME  : "report_${{ github.sha }}"
-
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up JDK 11
-      uses: actions/setup-java@v2
-      with:
-        java-version: '11'
-        distribution: 'adopt'
-        cache: maven
-    - run: mvn --batch-mode --update-snapshots verify
-    
-    - name: Extract Maven project version
-      run: echo ::set-output name=version::$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
-      id: project
+      - uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+          cache: maven
 
-    - run: mkdir staging && cp target/*.jar staging
-    - uses: actions/upload-artifact@v2
-      with:
-        name: ${{ steps.project.outputs.version }}.jar
-        path: staging
-        
-    
+      - run: mvn --batch-mode --update-snapshots verify
+
+      - name: Extract Maven project version
+        run: echo ::set-output name=version::$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
+        id: project
+
+      - run: mkdir staging && cp target/*.jar staging
+      - uses: actions/upload-artifact@v2
+        with:
+          name: ${{ steps.project.outputs.version }}.jar
+          path: staging
+
+      - name: Print Message
+        run: echo "CI Pipeline part Finished successfully!"
