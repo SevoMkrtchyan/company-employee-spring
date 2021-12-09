@@ -23,13 +23,10 @@ jobs:
         java-version: '11'
         distribution: 'adopt'
         cache: maven
-    - name: Build with Maven
-      run: mvn clean install
-    - name: Archive production artifacts
-      uses: actions/upload-artifact@v2
+    - run: mvn --batch-mode --update-snapshots verify
+    - run: mkdir staging && cp target/*.jar staging
+    - uses: actions/upload-artifact@v2
       with:
-       name: dist-without-markdown
-       path: |
-          dist
-          !dist/**/*.md
+        name: Package
+        path: staging
         
