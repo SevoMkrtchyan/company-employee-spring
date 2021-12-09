@@ -3,6 +3,9 @@
 # Company Employee Spring Action 
 name: Java CI with Maven
 
+env:
+ ARTIFACT_NAME  : "artifact_${{ github.sha }}.txt"
+
 on:
   push:
     branches: [ master ]
@@ -21,8 +24,10 @@ jobs:
         distribution: 'adopt'
         cache: maven
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
-    - name: check dir and whoami command
-      run: ls -la
-    - name: check users
-      run: cat /etc/passwd
+      run: mvn clean install
+    - name: Archive code coverage results
+      uses: actions/upload-artifact@v2
+      with:
+        name: code-coverage-report
+        path: ci_output/${{ env.ARTIFACT_NAME }}
+        
