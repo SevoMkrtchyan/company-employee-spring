@@ -5,7 +5,6 @@ name: Java CI with Maven
 
 env:
  ARTIFACT_NAME  : "report_${{ github.sha }}"
- PROJECT_VERSION : ""
 
 on:
   push:
@@ -29,7 +28,10 @@ jobs:
       run: echo ::set-output name=version::$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
       id: project
     - name: Show extracted Maven project version
-      run: echo ${{ steps.project.outputs.version }} >> $PROJECT_VERSION
+      run: echo ${{ steps.project.outputs.version }} 
+      env:
+        PROJECT_VERSION : ${{ steps.project.outputs.version }} 
+        
     - run: mkdir staging && cp target/*.jar staging
     - uses: actions/upload-artifact@v2
       with:
