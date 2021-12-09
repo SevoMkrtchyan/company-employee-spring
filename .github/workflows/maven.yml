@@ -26,8 +26,9 @@ jobs:
     - run: mvn --batch-mode --update-snapshots verify
     - name: Extract Maven project version
       run: echo ::set-output name=version::$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
+      id: project
     - name: Show extracted Maven project version
-      run: echo ${{ steps.outputs.version }}
+      run: echo ${{ steps.project.outputs.version }}
     - run: mkdir staging && cp target/*.jar staging
     - uses: actions/upload-artifact@v2
       with:
