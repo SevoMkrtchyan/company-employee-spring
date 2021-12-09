@@ -32,10 +32,12 @@ jobs:
         run: echo ::set-output name=version::$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
         id: project
 
+      - name: set env variable
+        run: echo "PROJECT_VERSION=$(echo ${{ steps.project.outputs.version }})" >> $GITHUB_ENV
       - run: mkdir staging && cp target/*.jar staging
       - uses: actions/upload-artifact@v2
         with:
-          name: ${{ steps.project.outputs.version }}.jar
+          name: ${{ env.PROJECT_VERSION }}.jar
           path: staging
 
       - name: Print Message
