@@ -45,14 +45,16 @@ public class AdminController {
 
     @GetMapping("/admin")
     public String adminPage(ModelMap modelMap, @AuthenticationPrincipal CurrentUser currentUser) {
-        if (!employeeService.findAll().isEmpty()) {
+        if (employeeService.findAll().isEmpty()) {
+            modelMap.addAttribute("companiesMessage", "Companies not found");
+        } else {
             modelMap.addAttribute("employees", employeeService.findAll());
         }
-        if (!companyService.findAll().isEmpty()) {
+        if (companyService.findAll().isEmpty()) {
+            modelMap.addAttribute("companiesMessage", "Companies not found");
+        } else {
             modelMap.addAttribute("companies", companyService.findAll());
         }
-        modelMap.addAttribute("employeesMessage", "Employees not found");
-        modelMap.addAttribute("companiesMessage", "Companies not found");
         log.info("Attempt to open /admin page, logged User id is {} ", currentUser.getEmployee().getId());
         return "admin";
     }

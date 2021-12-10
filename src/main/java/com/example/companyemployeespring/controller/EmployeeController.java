@@ -10,6 +10,8 @@ import com.example.companyemployeespring.service.GmailService;
 import com.example.companyemployeespring.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -31,9 +33,13 @@ public class EmployeeController {
     private final GmailService emailService;
 
     @GetMapping("/employees")
-    public String getEmployees(ModelMap modelMap, @AuthenticationPrincipal CurrentUser currentUser) {
-        List<Employee> employees = employeeService.findAll();
-        modelMap.addAttribute("employees", employees);
+    public String getEmployees(
+            @RequestParam(value = "page", defaultValue = "1") int page
+            , @RequestParam(value = "size", defaultValue = "20") int size,
+            ModelMap modelMap, @AuthenticationPrincipal CurrentUser currentUser) {
+        PageRequest pageable = PageRequest.of(page - 1, size);
+        Page<Employee> all = employeeService.findAll(pageable);
+        modelMap.addAttribute("employees", all);
         log.info("User with email {} tried to open /employees page ", currentUser.getEmployee().getEmail());
         return "employees";
     }
@@ -53,11 +59,13 @@ public class EmployeeController {
     @PostMapping("/admin/addEmployee")
     public String addEmployee(@ModelAttribute Employee employee, @AuthenticationPrincipal CurrentUser currentUser, Locale locale) {
         if (currentUser.getEmployee().getPosition().equals(Position.ADMINISTRATOR)) {
-            employeeService.save(employee, locale);
-//            mailService.send(employee.getEmail(), "Welcome to Company Employee",
-//                    "Dear " + employee.getName() + ", You have successfully registered to our web site!");
-            log.info("Added new Employee with email {} at {} by Administrator with id {}",
-                    employee.getEmail(), new Date(), currentUser.getEmployee().getId());
+            boolean saved = employeeService.save(employee, locale);
+            if (saved) {
+                log.info("Added new Employee with email {} at {} by Administrator with id {}",
+                        employee.getEmail(), new Date(), currentUser.getEmployee().getId());
+            } else {
+                log.info("Attempt to create Employee failed cause of bad credentials");
+            }
             return "redirect:/admin";
         }
         log.info("Attempt to create employee, User with name {} and email {} ",
