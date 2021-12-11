@@ -31,6 +31,5 @@ jobs:
           git config --global user.email '${{ secrets.MY_EMAIL }}@users.noreply.github.com'
           git remote set-url origin https://x-access-token:${{ secrets.MY_TOKEN }}@github.com/$GITHUB_REPOSITORY
           git checkout "${GITHUB_REF:11}"
-          git add pom.xml
-          git commit -m "Automated push` changed release version"
+          git commit -am "Automated push changed release version"
           git push
