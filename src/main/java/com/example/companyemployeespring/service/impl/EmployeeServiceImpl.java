@@ -3,10 +3,13 @@ package com.example.companyemployeespring.service.impl;
 import com.example.companyemployeespring.model.Employee;
 import com.example.companyemployeespring.model.Position;
 import com.example.companyemployeespring.repository.EmployeeRepository;
-import com.example.companyemployeespring.service.GmailService;
 import com.example.companyemployeespring.service.EmployeeService;
+import com.example.companyemployeespring.service.GmailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,23 +28,32 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final PasswordEncoder passwordEncoder;
     private final GmailService gmailService;
 
-    public List<Employee> findAll() {
-        return employeeRepository.findAll();
+    @Value("${spring.mail.template.path}")
+    private String templatePath;
+
+    public Page<Employee> findAll(PageRequest pageRequest) {
+        return employeeRepository.findAll(pageRequest);
     }
 
-    public void save(Employee employee, Locale locale) {
+    @Override
+    public List<Employee> findAll() {
+        return  employeeRepository.findAll();
+    }
+
+    public boolean save(Employee employee, Locale locale) {
         if (employee.getPosition() == null) {
             employee.setPosition(Position.NO_POSITION_YET);
         }
         Optional<Employee> employeeByUsername = employeeRepository.findEmployeeByUsername(employee.getUsername());
-        if (!employeeByUsername.isPresent()) {
+        if (!employeeByUsername.isPresent() || !employeeByUsername.get().getEmail().equals(employee.getEmail())) {
             UUID token = UUID.randomUUID();
             employee.setToken(token);
             employee.setPassword(passwordEncoder.encode(employee.getPassword()));
             employeeRepository.save(employee);
-            sendVerifyMessage(employee, locale);
+//            sendVerifyMessage(employee, locale);
+            return true;
         }
-
+        return false;
     }
 
     public Optional<Employee> findById(int id) {
@@ -76,7 +88,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 employee.getEmail(), employee.getToken());
         String subject = "Verify Your Account";
         try {
-            gmailService.sendMail(employee, locale, link, subject, "verifyTemplate");
+            gmailService.sendMail(employee, locale, link, subject, templatePath);
         } catch (MessagingException e) {
             log.error(e.getMessage());
         }

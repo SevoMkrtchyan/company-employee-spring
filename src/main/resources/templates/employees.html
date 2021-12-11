@@ -21,7 +21,7 @@
             <th>Company Name</th>
 
         </tr>
-        <tr  th:each="employee : ${employees}">
+        <tr  th:each="employee : ${employees.content}">
 <!--            <td><a th:href="@{/singleEmployeePage(id=${employee.id})}" href="#" ><span th:text="${employee.name}"></span></a></td>-->
             <td th:text="${employee.name}"></td>
             <td th:text="${employee.surname}"></td>

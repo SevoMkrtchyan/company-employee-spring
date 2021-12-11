@@ -1,0 +1,32 @@
+version: "3"
+services:
+
+  mysqldb:
+    image: mysql:5.7
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=company_employee
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=password
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./sql/company_employee.sql:/docker-entrypoint-initdb.d/company_employee.sql
+      - ./db:/var/lib/mysql
+
+  company:
+    depends_on:
+      - mysqldb
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: on-failure
+    ports:
+      - "8080:8080"
+    environment:
+      - DATABASE_HOST=mysqldb
+      - DATABASE_USER=admin
+      - DATABASE_PASSWORD=password
+      - DATABASE_NAME=company_employee
+      - DATABASE_PORT=3306

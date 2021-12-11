@@ -17,8 +17,8 @@ public class I18nConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry
-                .addResourceHandler("/templates/**", "/css/**", "/mail/**")
-                .addResourceLocations("classpath:templates/")
+                .addResourceHandler("/templates/**", "/static/css/**", "/mail/**")
+                .addResourceLocations("classpath:/templates/")
                 .addResourceLocations("classpath:/templates/static/css")
                 .addResourceLocations("classpath:/templates/mail");
     }

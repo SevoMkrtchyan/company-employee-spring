@@ -46,7 +46,7 @@
             <td th:text="${employee.email}"></td>
             <td th:text="${employee.phoneNumber}"></td>
             <td th:text="${employee.salary}"></td>
-            <td><span th:if="${employee.position != null}" th:text="${employee.position.name()}">No Position Yet</span>
+            <td><span th:if="${employee.position != null}" th:text="${employee.position?.name()}">No Position Yet</span>
             </td>
             <td th:text="${employee.company?.name}"></td>
             <td><a th:href="@{/admin/deleteEmployee(id=${employee.id})}" href="#">Delete</a></td>
