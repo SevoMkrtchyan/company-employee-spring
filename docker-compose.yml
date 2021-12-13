@@ -12,7 +12,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./sql/company_employee.sql:/docker-entrypoint-initdb.d/company_employee.sql
+#      - ./sql/company_employee.sql:/docker-entrypoint-initdb.d/company_employee.sql
       - ./db:/var/lib/mysql
 
   company:
