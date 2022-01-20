@@ -1,0 +1,48 @@
+version: '3'
+services:
+  company_employee_app:
+    container_name: company-employee-app
+    depends_on:
+      - company_employee_db
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: on-failure
+    ports:
+      - "8080:8080"
+    environment:
+      DATABASE_USER: admin
+      DATABASE_PASSWORD: password
+      SPRING_DATASOURCE_URL:  jdbc:mysql://company_employee_db:3306/company_employee?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+
+  company_employee_db:
+    container_name: company-employee-db
+    image: mysql
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=password
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./data:/var/lib/mysql
+
+  company_employee_flyway:
+    container_name: my-flyway
+    depends_on:
+      - company_employee_db
+    links:
+      - company_employee_db
+    image: flyway/flyway:latest
+    volumes:
+      - ./db/migration:/db/migration
+    environment:
+      FLYWAY_USER: root
+      FLYWAY_PASSWORD: root
+      FLYWAY_URL: jdbc:mysql://company_employee_db:3306
+      FLYWAY_LOCATIONS: filesystem:/db/migration
+      FLYWAY_SCHEMAS: company_employee
+
+    command:
+      - migrate

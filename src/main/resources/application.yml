@@ -4,13 +4,13 @@
     cache: false
 
   datasource:
-    url: jdbc:mysql://mysqldb:3306/company_employee?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+#    url: jdbc:mysql://mysqldb:3307/company_employee?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     username: root
     password: root
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
 #      dialect: org.hibernate.dialect.MySQL5InnoDBDialect
     show-sql: false
 
@@ -31,3 +31,10 @@
       ssl.trust: smtp.gmail.com
     template:
       path: /mail/verifyTemplate
+
+#  flyway:
+#     user: "root"
+#     password: "root"
+#     schemas: company_employee
+#     url: jdbc:mysql://localhost:3307
+
