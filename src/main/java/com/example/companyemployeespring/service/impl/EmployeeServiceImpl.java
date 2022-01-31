@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,17 +28,22 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final PasswordEncoder passwordEncoder;
     private final GmailService gmailService;
+    //    private final RabbitTemplate template;
+    private final KafkaTemplate<String, String> kafkaTemplate;
 
     @Value("${spring.mail.template.path}")
     private String templatePath;
 
     public Page<Employee> findAll(PageRequest pageRequest) {
-        return employeeRepository.findAll(pageRequest);
+        Page<Employee> employees = employeeRepository.findAll(pageRequest);
+//        template.convertAndSend(RabbitMQConfig.EXCHANGE, RabbitMQConfig.ROUTING_KEY,  "employees");
+        kafkaTemplate.send("topicCustom","requested to find all employees");
+        return employees;
     }
 
     @Override
     public List<Employee> findAll() {
-        return  employeeRepository.findAll();
+        return employeeRepository.findAll();
     }
 
     public boolean save(Employee employee, Locale locale) {

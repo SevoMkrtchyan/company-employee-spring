@@ -6,6 +6,7 @@ import com.example.companyemployeespring.model.Position;
 import com.example.companyemployeespring.repository.EmployeeRepository;
 import com.example.companyemployeespring.service.CompanyService;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,14 +23,14 @@ public class ONApplicationStartEvent implements ApplicationListener<ApplicationR
     private final CompanyService companyService;
 
     @Override
-    public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
-        if (!employeeRepository.findEmployeeByUsername("admin087").isPresent()) {
+    public void onApplicationEvent(@NotNull ApplicationReadyEvent applicationReadyEvent) {
+        if (!employeeRepository.findEmployeeByUsername("admin").isPresent()) {
             employeeRepository.save(Employee.builder()
                     .name("admin")
                     .surname("adminyan")
                     .email("admin@mail.ru")
                     .username("admin")
-                    .password(passwordEncoder.encode("admin087"))
+                    .password(passwordEncoder.encode("admin"))
                     .position(Position.ADMINISTRATOR)
                     .salary(4)
                     .phoneNumber(46546)

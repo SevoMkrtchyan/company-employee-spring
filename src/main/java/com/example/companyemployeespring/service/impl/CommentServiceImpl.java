@@ -34,8 +34,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<Comment> findAllByTopic(Topic topic) {
         try {
-            List<Comment> allByTopic = commentRepository.findAllByTopic(topic);
-            return allByTopic;
+            return commentRepository.findAllByTopic(topic);
         } catch (NullPointerException e) {
             e.getMessage();
         }

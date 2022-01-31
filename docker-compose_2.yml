@@ -46,3 +46,10 @@ services:
 
     command:
       - migrate
+
+  rabbitMQ:
+    container_name: dev_rabbitMQ
+    image: rabbitmq:3-management
+    ports:
+      - "15672:15672"
+      - "5672:5672"
